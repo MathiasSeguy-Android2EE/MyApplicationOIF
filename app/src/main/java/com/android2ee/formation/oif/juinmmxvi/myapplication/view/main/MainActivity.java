@@ -1,13 +1,15 @@
-package com.android2ee.formation.oif.juinmmxvi.myapplication;
+package com.android2ee.formation.oif.juinmmxvi.myapplication.view.main;
 
 import android.os.Bundle;
 import android.support.v7.app.AppCompatActivity;
 import android.view.View;
 import android.widget.AdapterView;
-import android.widget.ArrayAdapter;
 import android.widget.Button;
 import android.widget.EditText;
 import android.widget.ListView;
+
+import com.android2ee.formation.oif.juinmmxvi.myapplication.R;
+import com.android2ee.formation.oif.juinmmxvi.myapplication.transverse.pojo.Human;
 
 import java.util.ArrayList;
 
@@ -30,11 +32,11 @@ public class MainActivity extends AppCompatActivity {
     /**
      * The list of items to display
      */
-    private ArrayList<String> messages;
+    private ArrayList<Human> humen;
     /**
      * The arrayadapter of the listview
      */
-    private ArrayAdapter<String> arrayAdapter;
+    private HumanArrayAdapter humanArrayAdapter;
     /***********************************************************
     *  Temp Var
     **********************************************************/
@@ -55,9 +57,9 @@ public class MainActivity extends AppCompatActivity {
         edtMessage= (EditText) findViewById(R.id.edtMessage);
         btnAdd= (Button) findViewById(R.id.btnAdd);
         lsvResult= (ListView) findViewById(R.id.lsvResult);
-        messages=new ArrayList<>();
-        arrayAdapter=new ArrayAdapter<String>(this,android.R.layout.simple_list_item_1,messages);
-        lsvResult.setAdapter(arrayAdapter);
+        humen =new ArrayList<>();
+        humanArrayAdapter =new HumanArrayAdapter(this,humen);
+        lsvResult.setAdapter(humanArrayAdapter);
 
         //add listeners
         btnAdd.setOnClickListener(new View.OnClickListener() {
@@ -86,7 +88,7 @@ public class MainActivity extends AppCompatActivity {
 //        messages.add(messageTemp);
 //        arrayAdapter.notifyDataSetChanged();
         //use the arrayadapter
-        arrayAdapter.add(messageTemp);
+        humanArrayAdapter.add(new Human(messageTemp,humen.size()));
         edtMessage.setText("");
     }
 
@@ -95,7 +97,7 @@ public class MainActivity extends AppCompatActivity {
      * @param position
      */
     private void fillEdtWithSelectedElement(int position){
-        messageTemp=messages.get(position);
+        messageTemp= humen.get(position).getMessage();
         edtMessage.setText(messageTemp);
     }
 }
