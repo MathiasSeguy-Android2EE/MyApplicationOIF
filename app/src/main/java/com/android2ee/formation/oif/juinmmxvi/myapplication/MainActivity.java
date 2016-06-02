@@ -3,9 +3,13 @@ package com.android2ee.formation.oif.juinmmxvi.myapplication;
 import android.os.Bundle;
 import android.support.v7.app.AppCompatActivity;
 import android.view.View;
+import android.widget.AdapterView;
+import android.widget.ArrayAdapter;
 import android.widget.Button;
 import android.widget.EditText;
-import android.widget.TextView;
+import android.widget.ListView;
+
+import java.util.ArrayList;
 
 public class MainActivity extends AppCompatActivity {
     /***********************************************************
@@ -22,7 +26,15 @@ public class MainActivity extends AppCompatActivity {
     /**
      * The result area
      */
-    private TextView txvResult;
+    private ListView lsvResult;
+    /**
+     * The list of items to display
+     */
+    private ArrayList<String> messages;
+    /**
+     * The arrayadapter of the listview
+     */
+    private ArrayAdapter<String> arrayAdapter;
     /***********************************************************
     *  Temp Var
     **********************************************************/
@@ -42,12 +54,22 @@ public class MainActivity extends AppCompatActivity {
         //instanciate the graphical components
         edtMessage= (EditText) findViewById(R.id.edtMessage);
         btnAdd= (Button) findViewById(R.id.btnAdd);
-        txvResult= (TextView) findViewById(R.id.txvResult);
+        lsvResult= (ListView) findViewById(R.id.lsvResult);
+        messages=new ArrayList<>();
+        arrayAdapter=new ArrayAdapter<String>(this,android.R.layout.simple_list_item_1,messages);
+        lsvResult.setAdapter(arrayAdapter);
+
         //add listeners
         btnAdd.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
                 addMessageToResult();
+            }
+        });
+        lsvResult.setOnItemClickListener(new AdapterView.OnItemClickListener() {
+            @Override
+            public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
+                fillEdtWithSelectedElement(position);
             }
         });
     }
@@ -60,7 +82,20 @@ public class MainActivity extends AppCompatActivity {
      */
     private void addMessageToResult(){
         messageTemp= edtMessage.getText().toString();
-        txvResult.append("\r\n"+messageTemp);
+        //manage the list of data directly
+//        messages.add(messageTemp);
+//        arrayAdapter.notifyDataSetChanged();
+        //use the arrayadapter
+        arrayAdapter.add(messageTemp);
         edtMessage.setText("");
+    }
+
+    /**
+     * Copy the selected element in the EdtText
+     * @param position
+     */
+    private void fillEdtWithSelectedElement(int position){
+        messageTemp=messages.get(position);
+        edtMessage.setText(messageTemp);
     }
 }
