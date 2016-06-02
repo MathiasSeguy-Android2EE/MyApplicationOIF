@@ -1,0 +1,6 @@
+<resources>
+    <string name="app_name">MyApplicationOIF</string>
+    <string name="edt_hint">Mets ton texte ici</string>
+    <string name="txvtitle">Bravo !!!</string>
+    <string name="btnAdd">Ajoutez</string>
+</resources>
