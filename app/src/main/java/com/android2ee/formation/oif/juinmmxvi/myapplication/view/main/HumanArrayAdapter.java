@@ -48,6 +48,7 @@ import java.util.ArrayList;
  * Created by Mathias Seguy - Android2EE on 02/06/2016.
  */
 public class HumanArrayAdapter extends ArrayAdapter<Human> {
+    private static final String TAG = "HumanArrayAdapter";
     /***********************************************************
     *  Attributes
     **********************************************************/
@@ -66,6 +67,10 @@ public class HumanArrayAdapter extends ArrayAdapter<Human> {
      * Temp View
      */
     View rowView;
+    /**
+     * Temp ViewHolder
+     */
+    ViewHolder viewHolder;
     /***********************************************************
     *  Constructors
     **********************************************************/
@@ -83,12 +88,51 @@ public class HumanArrayAdapter extends ArrayAdapter<Human> {
         //then instanciate the view if needed
         rowView=convertView;
         if(rowView==null){
-            rowView=inflater.inflate(R.layout.human_even,parent,false);
+            rowView=inflater.inflate(R.layout.human_odd,parent,false);
+            viewHolder=new ViewHolder(rowView);
+            rowView.setTag(viewHolder);
         }
+        //find the viewHolder
+        viewHolder= (ViewHolder) rowView.getTag();
         //And at last update the view to display your data
-        ((TextView)rowView.findViewById(R.id.txvName)).setText(human.getName());
-        ((TextView)rowView.findViewById(R.id.txvMessage)).setText(human.getMessage());
-        ((ImageView)rowView.findViewById(R.id.imvPicture)).setBackgroundResource(human.getPictureId());
+        viewHolder.getTxvName().setText(human.getName());
+        viewHolder.getTxvMessage().setText(human.getMessage());
+        viewHolder.getImvPicture().setBackgroundResource(human.getPictureId());
         return rowView;
+    }
+
+    /***********************************************************
+     *  ViewHolder pattern
+     **********************************************************/
+    private class ViewHolder{
+        //fields
+        private TextView txvName=null;
+        private TextView txvMessage=null;
+        private ImageView imvPicture=null;
+        private View view;
+        public ViewHolder(View view){
+            this.view=view;
+        }
+
+        public ImageView getImvPicture() {
+            if(imvPicture==null){
+                imvPicture= (ImageView) view.findViewById(R.id.imvPicture);
+            }
+            return imvPicture;
+        }
+
+        public TextView getTxvMessage() {
+            if(txvMessage==null){
+                txvMessage= (TextView) view.findViewById(R.id.txvMessage);
+            }
+            return txvMessage;
+        }
+
+        public TextView getTxvName() {
+            if(txvName==null){
+                txvName= (TextView) view.findViewById(R.id.txvName);
+            }
+            return txvName;
+        }
     }
 }
