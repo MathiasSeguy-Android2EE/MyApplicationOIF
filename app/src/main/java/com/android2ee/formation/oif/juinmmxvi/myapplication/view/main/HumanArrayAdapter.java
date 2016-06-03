@@ -88,7 +88,11 @@ public class HumanArrayAdapter extends ArrayAdapter<Human> {
         //then instanciate the view if needed
         rowView=convertView;
         if(rowView==null){
-            rowView=inflater.inflate(R.layout.human_odd,parent,false);
+            if( getItemViewType(position)==0){
+                rowView=inflater.inflate(R.layout.human_even,parent,false);
+            }else{
+                rowView=inflater.inflate(R.layout.human_odd,parent,false);
+            }
             viewHolder=new ViewHolder(rowView);
             rowView.setTag(viewHolder);
         }
@@ -99,6 +103,20 @@ public class HumanArrayAdapter extends ArrayAdapter<Human> {
         viewHolder.getTxvMessage().setText(human.getMessage());
         viewHolder.getImvPicture().setBackgroundResource(human.getPictureId());
         return rowView;
+    }
+    /***********************************************************
+     *  Managing odd and even view
+     **********************************************************/
+    @Override
+    public int getViewTypeCount() {
+        //return the ConvertView pools number
+        return 2;
+    }
+    @Override
+    public int getItemViewType(int position) {
+        //depending on the object in which convertview pool do I need to pick the view
+        human=getItem(position);
+        return human.getName().equals("toto")?0:1;
     }
 
     /***********************************************************
