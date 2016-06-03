@@ -93,7 +93,7 @@ public class HumanArrayAdapter extends ArrayAdapter<Human> {
             }else{
                 rowView=inflater.inflate(R.layout.human_odd,parent,false);
             }
-            viewHolder=new ViewHolder(rowView);
+            viewHolder=new ViewHolder(rowView,this);
             rowView.setTag(viewHolder);
         }
         //find the viewHolder
@@ -102,6 +102,7 @@ public class HumanArrayAdapter extends ArrayAdapter<Human> {
         viewHolder.getTxvName().setText(human.getName());
         viewHolder.getTxvMessage().setText(human.getMessage());
         viewHolder.getImvPicture().setBackgroundResource(human.getPictureId());
+        viewHolder.setItemPosition(position);
         return rowView;
     }
     /***********************************************************
@@ -120,6 +121,13 @@ public class HumanArrayAdapter extends ArrayAdapter<Human> {
     }
 
     /***********************************************************
+     *  Delete a line method
+     **********************************************************/
+    public void deleteItem(int position){
+        //supprimer l'humain de la liste
+        remove(getItem(position));
+    }
+    /***********************************************************
      *  ViewHolder pattern
      **********************************************************/
     private class ViewHolder{
@@ -127,9 +135,24 @@ public class HumanArrayAdapter extends ArrayAdapter<Human> {
         private TextView txvName=null;
         private TextView txvMessage=null;
         private ImageView imvPicture=null;
+        private ImageView imvDelete=null;
         private View view;
-        public ViewHolder(View view){
+        private int itemPosition;
+        private HumanArrayAdapter adapter;
+        public ViewHolder(View view, HumanArrayAdapter adapter){
             this.view=view;
+            this.adapter=adapter;
+            imvDelete= (ImageView) view.findViewById(R.id.imvDelete);
+            imvDelete.setOnClickListener(new View.OnClickListener() {
+                @Override
+                public void onClick(View v) {
+                    deleteCurrentItem();
+                }
+            });
+        }
+
+        private void deleteCurrentItem(){
+            adapter.deleteItem(itemPosition);
         }
 
         public ImageView getImvPicture() {
@@ -151,6 +174,10 @@ public class HumanArrayAdapter extends ArrayAdapter<Human> {
                 txvName= (TextView) view.findViewById(R.id.txvName);
             }
             return txvName;
+        }
+
+        public void setItemPosition(int itemPosition) {
+            this.itemPosition = itemPosition;
         }
     }
 }
