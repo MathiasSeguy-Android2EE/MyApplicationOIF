@@ -58,6 +58,9 @@ public class MainActivity extends AppCompatActivity {
         btnAdd= (Button) findViewById(R.id.btnAdd);
         lsvResult= (ListView) findViewById(R.id.lsvResult);
         humen =new ArrayList<>();
+        for(int i=0;i<10000;i++){
+            humen.add(new Human("Toto num "+i,i));
+        }
         humanArrayAdapter =new HumanArrayAdapter(this,humen);
         lsvResult.setAdapter(humanArrayAdapter);
 

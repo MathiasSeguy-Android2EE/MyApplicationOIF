@@ -36,6 +36,7 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.ArrayAdapter;
+import android.widget.ImageView;
 import android.widget.TextView;
 
 import com.android2ee.formation.oif.juinmmxvi.myapplication.R;
@@ -50,7 +51,21 @@ public class HumanArrayAdapter extends ArrayAdapter<Human> {
     /***********************************************************
     *  Attributes
     **********************************************************/
+    /**
+     * The layoutInflater that read xml layout files and build associated view java object
+     */
     private LayoutInflater inflater;
+    /***********************************************************
+     *  TempVar
+     **********************************************************/
+    /**
+     * Temp Human
+     */
+    Human human;
+    /**
+     * Temp View
+     */
+    View rowView;
     /***********************************************************
     *  Constructors
     **********************************************************/
@@ -63,9 +78,17 @@ public class HumanArrayAdapter extends ArrayAdapter<Human> {
      **********************************************************/
     @Override
     public View getView(int position, View convertView, ViewGroup parent) {
-        Human human=getItem(position);
-        View rowView=inflater.inflate(R.layout.human_even,parent,false);
+        //first find the data
+        human=getItem(position);
+        //then instanciate the view if needed
+        rowView=convertView;
+        if(rowView==null){
+            rowView=inflater.inflate(R.layout.human_even,parent,false);
+        }
+        //And at last update the view to display your data
         ((TextView)rowView.findViewById(R.id.txvName)).setText(human.getName());
+        ((TextView)rowView.findViewById(R.id.txvMessage)).setText(human.getMessage());
+        ((ImageView)rowView.findViewById(R.id.imvPicture)).setBackgroundResource(human.getPictureId());
         return rowView;
     }
 }
