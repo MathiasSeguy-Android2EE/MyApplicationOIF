@@ -69,23 +69,7 @@ android {
      **********************************************************/
     apply from: 'gradle/load_accounts.gradle'
 
-/***********************************************************
- *  Signing
- **********************************************************/
-signingConfigs {
-    debug {
-        storeFile project.ext.JKSFile
-        storePassword project.ext.JKSPassword
-        keyAlias project.ext.JKSKeyAlias
-        keyPassword project.ext.JKSKeyPassword
-    }
-    release {
-        storeFile project.ext.JKSFile_Release
-        storePassword project.ext.JKSPassword_Release
-        keyAlias project.ext.JKSKeyAlias_Release
-        keyPassword project.ext.JKSKeyPassword_Release
-    }
-}
+#SIGNIN_BLOCK
 
     /***********************************************************
      *  Default values for all variants
@@ -187,18 +171,7 @@ signingConfigs {
     useLibrary 'android.test.mock'
 }
 
-apply from: './var_def_lib.gradle'
-dependencies {
-    implementation fileTree(include: ['*.jar'], dir: 'libs')
-	implementation "androidx.appcompat:appcompat:${androidxAppcompat_appcompat_Version}"
-    //Crashlytics
-    implementation("com.crashlytics.sdk.android:crashlytics:${comCrashlyticsSdkAndroid_crashlytics_Version}") {
-        transitive = true;
-    }
-    //Junit elements    
-    androidTestImplementation "junit:junit:${junit_junit_Version}" 
-    testImplementation "junit:junit:${junit_junit_Version}"
-}
+#DEPENDENCIES_BLOCK
 /*
 All direct/transitive dependencies shared between your test and production APKs need to be
 excluded from the test APK! This is necessary because both APKs will contain the same classes. Not
